@@ -553,15 +553,13 @@ class TextEditorState extends State<TextEditor> {
     final textSelectionMenuItems = widget.textSelectionMenuItems ?? [];
     final api = _api;
 
-    return DecoratedPlatformTextField(
+    return TextField(
       controller: _textEditingController,
       focusNode: _focusNode,
       maxLines: widget.maxLines,
       minLines: widget.minLines,
       expands: widget.expands,
       decoration: buildInputDecoration(context),
-      cupertinoAlignLabelOnTop: widget.cupertinoAlignLabelOnTop,
-      cupertinoSuffixMode: OverlayVisibilityMode.editing,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       inputFormatters: widget.inputFormatters,
@@ -640,17 +638,7 @@ class TextEditorState extends State<TextEditor> {
     if (!showClearOption) {
       return decoration;
     }
-    final suffix = PlatformInfo.isCupertino
-        ? CupertinoButton(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 5, 2),
-            child: const Icon(
-              CupertinoIcons.xmark_circle_fill,
-              size: 20.0,
-              color: CupertinoColors.secondaryLabel,
-            ),
-            onPressed: () => _textEditingController.text = '',
-          )
-        : IconButton(
+    final suffix = IconButton(
             icon: const Icon(Icons.clear),
             onPressed: () => _textEditingController.text = '',
           );
@@ -734,9 +722,7 @@ class FontSelector {
                     borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                     child: PlatformMaterial(
                       elevation: 8.0,
-                      color: PlatformInfo.isCupertino
-                          ? CupertinoTheme.of(context).barBackgroundColor
-                          : Theme.of(context).canvasColor,
+                      color: Theme.of(context).canvasColor,
                       child: UnicodeFontSelector(onSelected: callback),
                     ),
                   ),
@@ -935,12 +921,12 @@ class PlatformTextSelectionControls {
   static TextSelectionControls create(
       {bool includeSystemEntries = true,
       required List<PlatformTextSelectionItem> customEntries}) {
-    if (PlatformInfo.isCupertino) {
-      return _CupertinoTextSelectionControls(
-        includeStandardEntries: includeSystemEntries,
-        customEntries: customEntries,
-      );
-    }
+    // if (PlatformInfo.isCupertino) {
+    //   return _CupertinoTextSelectionControls(
+    //     includeStandardEntries: includeSystemEntries,
+    //     customEntries: customEntries,
+    //   );
+    // }
     return _MaterialTextSelectionControls(
       includeStandardEntries: includeSystemEntries,
       customEntries: customEntries,
